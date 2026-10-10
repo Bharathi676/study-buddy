@@ -81,16 +81,17 @@ study-buddy/
 - **npm** (v9 or higher)
 
 ### 2. Configure Environment Variables
-Copy `.env.example` to `.env`:
+From the `study-buddy` project root, copy `.env.example` to `.env`:
 ```bash
 cp .env.example .env
 ```
+In PowerShell, use `Copy-Item .env.example .env` instead.
 
-Open `.env` and fill in your keys:
+Open the new root `.env` file and replace the Gemini placeholder with your key from [Google AI Studio](https://aistudio.google.com/app/apikey):
 ```env
 # 1. Google Gemini API Key
 # Get a free key at https://aistudio.google.com/app/apikey
-GEMINI_API_KEY=your_actual_gemini_api_key_here
+GEMINI_API_KEY=your_key_here
 
 # Backend port (default 5000)
 PORT=5000
@@ -104,6 +105,8 @@ VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
 VITE_FIREBASE_MESSAGING_SENDER_ID=...
 VITE_FIREBASE_APP_ID=...
 ```
+
+`GEMINI_API_KEY` is used by the backend. Keep it in the project-root `.env` or `server/.env`, never in `client/.env` or frontend code. If both files exist, `server/.env` takes precedence. The `.env` files are ignored by Git; restart the server with `npm run dev` after changing the key.
 
 > 💡 **Built-in Demo Fallback**: If you run without a `GEMINI_API_KEY` or Firebase keys, Study Buddy automatically operates in a full educational demonstration mode with intelligent offline quiz generation, streaming responses, and local guest persistence!
 

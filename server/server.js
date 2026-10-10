@@ -5,11 +5,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Load .env from server dir and project root
+// Load server settings first; the project-root .env is a fallback. Existing shell variables win.
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
 dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -32,7 +32,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
     hasGeminiKey: hasKey,
-    model: process.env.GEMINI_MODEL || 'gemini-1.5-flash',
+    model: process.env.GEMINI_MODEL || 'gemini-flash-latest',
     mode: hasKey ? 'live-gemini' : 'mock-fallback',
     message: hasKey
       ? 'Gemini API connected and ready.'
@@ -298,7 +298,7 @@ JSON Schema:
   ]
 }`;
 
-  const modelName = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+  const modelName = process.env.GEMINI_MODEL || 'gemini-flash-latest';
   const model = gemini.getGenerativeModel({
     model: modelName,
     generationConfig: {
@@ -434,7 +434,7 @@ SAFETY AND POLICY RULES:
 - Use rich GitHub-flavored Markdown: headings (###), bold text, bullet points, numbered lists, blockquotes, code blocks with language tags, and tables when helpful.
 `;
 
-    const modelName = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+    const modelName = process.env.GEMINI_MODEL || 'gemini-flash-latest';
     const model = gemini.getGenerativeModel({
       model: modelName,
       systemInstruction: personaPrompt,
