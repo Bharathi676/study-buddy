@@ -474,6 +474,12 @@ SAFETY AND POLICY RULES:
   }
 });
 
+const clientDistPath = path.join(__dirname, '..', 'client', 'dist');
+app.use(express.static(clientDistPath));
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(clientDistPath, 'index.html'));
+});
+
 // Start express server
 app.listen(PORT, () => {
   console.log(`Study Buddy backend listening on http://localhost:${PORT}`);
